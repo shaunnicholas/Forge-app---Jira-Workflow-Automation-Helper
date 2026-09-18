@@ -1,0 +1,32 @@
+modules:
+  jira:adminPage:
+    - key: workflow-automation-poc-1-hello-world-admin-page
+      resource: main
+      resolver:
+        function: resolver
+      title: Workflow Automation Poc 1
+  trigger:
+    - key: workflow-trigger
+      function: issue-trigger
+      events:
+        - avi:jira:created:issue
+        - avi:jira:updated:issue
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: issue-trigger
+      handler: trigger.run
+resources:
+  - key: main
+    path: static/hello-world/build
+permissions:
+  scopes:
+    - storage:app
+    - read:jira-work
+    - write:jira-work
+app:
+  runtime:
+    name: nodejs24.x
+    memoryMB: 256
+    architecture: arm64
+  id: ari:cloud:ecosystem::app/de302838-6f84-42eb-81a8-1c629cc1a8d2
